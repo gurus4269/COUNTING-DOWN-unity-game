@@ -60,23 +60,38 @@ public class playercontroler : MonoBehaviour
 
            
     }
-
+    //移動
     public void Move(InputAction.CallbackContext context)
     {
         InputX = context.ReadValue<Vector2>().x;
     }
-
+    //跳躍
     public void Jump(InputAction.CallbackContext context)
     {
         if(isground)
         {
-            rig.velocity = new Vector2(rig.velocity.x,5);
+            rig.velocity = new Vector2(rig.velocity.x,7);
+            ani.SetBool("attack", false);
         }
     }
-
+    //制空圈
     private void OnDrawGizmos() 
     {
         Gizmos.DrawWireSphere(floor.position, .2f);
     }
 
+    //攻擊
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if(isground)
+        {
+            ani.SetBool("attack", true);
+        }
+        
+    }
+    //結束攻擊
+    public void EndAttack()
+    {
+        ani.SetBool("attack", false);
+    }
 }
