@@ -15,8 +15,11 @@ public class playercontroler : MonoBehaviour
     private Animator ani;
 
     public Transform floor;
+    public Transform attackpoint;
+    public float attackrange = .3f;
+    private int jumpcount = 0;
 
-    public LayerMask groundMask;
+    public LayerMask groundMask, enemyMask;
 
     private bool isground;
 
@@ -57,6 +60,10 @@ public class playercontroler : MonoBehaviour
 
         //判斷觸地
         isground = Physics2D.OverlapCircle(floor.position, .2f, groundMask);
+        if(isground)
+        {
+            jumpcount = 0;
+        }
 
            
     }
@@ -72,13 +79,35 @@ public class playercontroler : MonoBehaviour
         {
             rig.velocity = new Vector2(rig.velocity.x,7);
             ani.SetBool("attack", false);
+            jumpcount++; 
         }
+        else if(jumpcount<=2)
+        {
+            rig.velocity = new Vector2(rig.velocity.x,7);
+            ani.SetBool("attack", false);
+            jumpcount++;
+        }
+
     }
     //制空圈
     private void OnDrawGizmos() 
     {
         Gizmos.DrawWireSphere(floor.position, .2f);
+        Gizmos.DrawWireSphere(attackpoint.position, attackrange);
     }
+
+    private void CheckAttackHit()
+    {
+        //宣告打到的目標物件(可能為空)
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackpoint.position, attackrange, enemyMask);
+
+        foreach(Collider2D collider in detectedObjects)
+        {
+            Debug.Log(collider.gameObject.name);
+            collider.gameObject.SendMessage("onDamage", 10.0f);
+        }
+    }
+
 
     //攻擊
     public void Attack(InputAction.CallbackContext context)
