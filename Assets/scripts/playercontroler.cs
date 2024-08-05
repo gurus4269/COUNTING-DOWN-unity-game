@@ -123,4 +123,6 @@ public class playercontroler : MonoBehaviour
     {
         ani.SetBool("attack", false);
     }
+
+    
 }

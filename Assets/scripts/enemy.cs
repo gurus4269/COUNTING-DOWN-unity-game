@@ -17,7 +17,10 @@ public class enemy : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        
+        if (hp <= 0)
+        {
+            Destroy(gameObject, 2f);  // 销毁当前对象
+        }
     }
 
     public void onDamage(float damage)
@@ -27,6 +30,7 @@ public class enemy : MonoBehaviour
         Debug.Log("hp:" + hp);
         if(hp <= 0)
         {
+            //Destory()
             ani.SetBool("death", true);
         }
     }
