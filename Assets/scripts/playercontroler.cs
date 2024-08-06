@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class playercontroler : MonoBehaviour
@@ -13,12 +14,13 @@ public class playercontroler : MonoBehaviour
 
     private Rigidbody2D rig;
     private Animator ani;
-
+    public Animator boxAni;
     public Transform floor;
     public Transform attackpoint;
     public float attackrange = .3f;
     private int jumpcount = 0;
-
+    public int coin = 0;
+    public Text coincount;
     public LayerMask groundMask, enemyMask;
 
     private bool isground;
@@ -124,5 +126,21 @@ public class playercontroler : MonoBehaviour
         ani.SetBool("attack", false);
     }
 
-    
+
+    private void OnTriggerEnter2D(Collider2D col) 
+    {
+        if (col.gameObject.CompareTag("Box"))
+        {
+            Debug.Log("gocha");
+            boxAni = col.gameObject.GetComponent<Animator>();
+            if (boxAni != null)
+            {
+                boxAni.SetTrigger("open");
+                coin += 1;
+                col.tag = "openedBox";
+                coincount.text = coin.ToString();
+            }
+        }
+    }
+   
 }
