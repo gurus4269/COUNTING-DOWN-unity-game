@@ -15,20 +15,18 @@ public class playercontroler : MonoBehaviour
     private Rigidbody2D rig;
     private Animator ani;
     public Animator boxAni;
-    public Transform floor;
-    public Transform attackpoint;
-    public float attackrange = .3f;
-    private int jumpcount = 0;
-    public int coin = 0;
-    public Text coincount;
+    public Transform floor, attackpoint;
+    public float attackrange = .3f, hp;
+    private int jumpcount = 0, coin = 0;
+    public Text coincount, hptext;
     public LayerMask groundMask, enemyMask;
-
     private bool isground;
 
     public void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
+        hp = 30.0f;
     }
 
     public void Update()
@@ -142,5 +140,35 @@ public class playercontroler : MonoBehaviour
             }
         }
     }
-   
+    private void OnCollisionEnter2D(Collision2D other) 
+    {
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("AAAAAAAAAAA");
+            if(transform.position.x < other.transform.position.x)//角色在敵人左邊
+            {
+                rig.velocity = new Vector2(-5,rig.velocity.y);
+            }
+            else
+            {
+                rig.velocity = new Vector2(5,rig.velocity.y);
+            }
+        }
+    }
+    public void onDamage(float damage)
+    {
+        hp = hp - damage;
+        ani.SetBool("isHurt", true);
+        hptext.text = hp.ToString();
+        if(hp <= 0)
+        {
+            //Destory()
+            //ani.SetBool("death", true);
+            ;
+        }
+    }
+    private void hurtover()
+    {
+        ani.SetBool("isHurt", false);
+    }
 }
