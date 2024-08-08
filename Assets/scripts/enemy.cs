@@ -7,15 +7,21 @@ public class enemy : MonoBehaviour
     private Animator ani;
     private Rigidbody2D rig;
     public float moveSpeed = 2f, hp;
-    public Transform attackpoint_enemy, innerattack, player;
+    public Transform attackpoint_enemy, innerattack, player, rightpoint, leftpoint;
     public LayerMask playerMask;
-    public float attackrange = 5f, Innerrange = 0.5f;
+    public float attackrange = 5f, Innerrange = 0.5f, left_x, right_x;
     private bool In_range, Inner, isFlip = false;
     private void Start()
     {
         ani = GetComponent<Animator>();
         hp = 20.0f;
         rig = GetComponent<Rigidbody2D>();
+        left_x = leftpoint.position.x;
+        right_x = rightpoint.position.x;
+        Destroy(leftpoint.gameObject);
+        Destroy(rightpoint.gameObject);
+        Debug.Log(left_x);
+        Debug.Log(right_x); 
     }
 
     // Update is called once per frame
@@ -40,7 +46,7 @@ public class enemy : MonoBehaviour
             }
         }
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        //float distanceToPlayer = Vector2.Distance(transform.position, player.position);
         if (hp <= 0)
         {
             Destroy(gameObject, 2f);  // 销毁当前对象
@@ -70,16 +76,49 @@ public class enemy : MonoBehaviour
     {
         In_range = Physics2D.OverlapCircle(attackpoint_enemy.position, attackrange, playerMask);//判斷玩家有沒有進入行動區域
         Inner = Physics2D.OverlapCircle(innerattack.position, Innerrange, playerMask);//判斷玩家有沒有進入攻擊區域
-        if(Inner)//進入攻擊區域
+        if(transform.position.x >= left_x && transform.position.x <= right_x)
         {
-            ani.SetBool("inrange", true);
+            if(Inner)//進入攻擊區域
+            {
+                ani.SetBool("inrange", true);
+            }
+            else if(In_range && !Inner)//進入行動區域，尚未進入攻擊區域
+            {
+                Vector2 direction = (player.position - transform.position).normalized;
+                rig.velocity = new Vector2(direction.x * moveSpeed, rig.velocity.y);
+            }
         }
-        else if(In_range && !Inner)//進入行動區域，尚未進入攻擊區域
+        else if(transform.position.x >= left_x)//卡在右點
         {
-            Vector2 direction = (player.position - transform.position).normalized;
-            rig.velocity = new Vector2(direction.x * moveSpeed, rig.velocity.y);
+            if(Inner)//進入攻擊區域
+            {
+                ani.SetBool("inrange", true);
+            }
+            else if(In_range && !Inner)//進入行動區域，尚未進入攻擊區域
+            {
+                Vector2 direction = (player.position - transform.position).normalized;
+                if(player.position.x <= right_x)
+                {
+                    rig.velocity = new Vector2(direction.x * moveSpeed, rig.velocity.y);
+                }
+            }
         }
-
+        else if(transform.position.x <= right_x)//卡在左點
+        {
+            if(Inner)//進入攻擊區域
+            {
+                ani.SetBool("inrange", true);
+            }
+            else if(In_range && !Inner)//進入行動區域，尚未進入攻擊區域
+            {
+                Vector2 direction = (player.position - transform.position).normalized;
+                if(player.position.x >= left_x)
+                {
+                    rig.velocity = new Vector2(direction.x * moveSpeed, rig.velocity.y);
+                }
+                
+            }
+        }
     }
 
     private void CheckAttackHit()
@@ -98,4 +137,5 @@ public class enemy : MonoBehaviour
             }
         }
     }
+
 }

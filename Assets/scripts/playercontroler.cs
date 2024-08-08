@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-
 public class playercontroler : MonoBehaviour
 {
-    public float movespeed = 5f;
-    private float InputX;
+    public float movespeed = 5f;    private float InputX;
 
     private bool isFlip = false;
 
@@ -39,7 +37,6 @@ public class playercontroler : MonoBehaviour
         //判斷跳躍
         ani.SetBool("isgrounded", isground);
         ani.SetFloat("yVelocity", rig.velocity.y); 
-
         //判斷翻轉
         if(!isFlip)
         {
