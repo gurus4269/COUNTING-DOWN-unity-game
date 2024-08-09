@@ -123,7 +123,8 @@ public class playercontroler : MonoBehaviour
 
 
     private void OnTriggerEnter2D(Collider2D col) 
-    {
+    {   
+        Flag flag = FindObjectOfType<Flag>();
         if (col.gameObject.CompareTag("Box"))
         {
             Debug.Log("gocha");
@@ -135,6 +136,16 @@ public class playercontroler : MonoBehaviour
                 col.tag = "openedBox";
                 coincount.text = coin.ToString();
             }
+        }
+        
+        if (col.gameObject.CompareTag("Flag")) // 假设你为 flag 小物件设置了 "Flag" 标签
+        {
+            flag.OnPlayerTouchFlag(col.gameObject);
+        }
+
+        if (col.gameObject.CompareTag("TransportGate")) // 假设你为 flag 小物件设置了 "Flag" 标签
+        {
+            flag.OnPlayerTouchTransportGate(col.gameObject);
         }
     }
     private void OnCollisionEnter2D(Collision2D other) 
