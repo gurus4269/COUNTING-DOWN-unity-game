@@ -147,12 +147,17 @@ public class playercontroler : MonoBehaviour
         {
             flag.OnPlayerTouchTransportGate(col.gameObject);
         }
+
+        if (col.gameObject.CompareTag("Fire")) // 假设你为 flag 小物件设置了 "Flag" 标签
+        {
+            this.onDamage(5);
+        }
     }
     private void OnCollisionEnter2D(Collision2D other) 
     {
         if(other.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("AAAAAAAAAAA");
+            //Debug.Log("AAAAAAAAAAA");
             if(transform.position.x < other.transform.position.x)//角色在敵人左邊
             {
                 rig.velocity = new Vector2(-5,rig.velocity.y);

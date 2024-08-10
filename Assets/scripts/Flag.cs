@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Flag : MonoBehaviour
 {
@@ -85,8 +86,17 @@ public class Flag : MonoBehaviour
     {
         if (transportGate == TransportGate)
         {
-            Debug.Log("胜利！");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
             // 这里你可以添加显示胜利 UI 或进行其他处理的代码
         }
+    }
+    public GameObject GetSelectedFlag()
+    {
+        return selectedFlag;
+    }
+    public bool AreAllFlagsCollected()
+    {
+        return count >= flagcount;
     }
 }
