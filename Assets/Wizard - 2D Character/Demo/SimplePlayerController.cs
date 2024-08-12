@@ -35,6 +35,14 @@ namespace ClearSky
 
             }
         }
+
+        public Vector2 lockedScale = new Vector2(0.2f, 0.2f);
+
+        void LateUpdate()
+        {
+            // 在每帧的最后强制设置对象的缩放值为 lockedScale。
+            transform.localScale = lockedScale;
+        }
         private void OnTriggerEnter2D(Collider2D other)
         {
             anim.SetBool("isJump", false);

@@ -19,12 +19,15 @@ public class playercontroler : MonoBehaviour
     public Text coincount, hptext;
     public LayerMask groundMask, enemyMask;
     private bool isground;
+    public Collider2D usaul, slide;
 
     public void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
         hp = 30.0f;
+        slide.enabled = false;
+        usaul.enabled = true;
     }
 
     public void Update()
@@ -37,6 +40,7 @@ public class playercontroler : MonoBehaviour
         //判斷跳躍
         ani.SetBool("isgrounded", isground);
         ani.SetFloat("yVelocity", rig.velocity.y); 
+        
         //判斷翻轉
         if(!isFlip)
         {
@@ -86,6 +90,22 @@ public class playercontroler : MonoBehaviour
         }
 
     }
+    //下墜
+    public void Slide(InputAction.CallbackContext context)
+    {
+        if(!isground)
+        {
+            rig.velocity = new Vector2(rig.velocity.x,-17);
+        }
+        else
+        {
+            rig.velocity = new Vector2(rig.velocity.x,0);
+        }
+        slide.enabled = true;
+        usaul.enabled = false;
+        ani.SetBool("attack", false);
+        ani.SetBool("isSlide", true);
+    }
     //制空圈
     private void OnDrawGizmos() 
     {
@@ -121,7 +141,12 @@ public class playercontroler : MonoBehaviour
         ani.SetBool("attack", false);
     }
 
-
+    public void endSlide()
+    {
+        slide.enabled = false;
+        usaul.enabled = true;
+        ani.SetBool("isSlide", false);
+    }
     private void OnTriggerEnter2D(Collider2D col) 
     {   
         Flag flag = FindObjectOfType<Flag>();

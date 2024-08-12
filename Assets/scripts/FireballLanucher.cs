@@ -9,6 +9,7 @@ public class FireballLanucher : MonoBehaviour
     public float fireballSpeed = 10f;  // 火球的速度
     public float fireRate = 1f;        // 火球的發射頻率
     private float nextFireTime = 0f;
+    public bool rightOrLeft = false;
 
     void Update()
     {
@@ -28,7 +29,14 @@ public class FireballLanucher : MonoBehaviour
         Rigidbody2D rb = fireball.GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.velocity = Vector2.right * -fireballSpeed;
+            if(rightOrLeft == false)
+            {
+                rb.velocity = Vector2.right * -fireballSpeed;
+            }
+            else
+            {
+                rb.velocity = Vector2.right * fireballSpeed;
+            }
         }
     }
 }
