@@ -14,20 +14,22 @@ public class playercontroler : MonoBehaviour
     private Animator ani;
     public Animator boxAni;
     public Transform floor, attackpoint;
-    public float attackrange = .3f, hp;
+    public float attackrange = .3f, hp, hpmax = 30.0f;
     private int jumpcount = 0, coin = 0;
     public Text coincount, hptext;
     public LayerMask groundMask, enemyMask;
     private bool isground;
     public Collider2D usaul, slide;
+    //public GameObject healthstone, bluelight;
 
     public void Start()
     {
         rig = GetComponent<Rigidbody2D>();
         ani = GetComponent<Animator>();
-        hp = 30.0f;
+        hp = hpmax;
         slide.enabled = false;
         usaul.enabled = true;
+        //bluelight.SetActive(true);
     }
 
     public void Update()
@@ -112,7 +114,7 @@ public class playercontroler : MonoBehaviour
         Gizmos.DrawWireSphere(floor.position, .2f);
         Gizmos.DrawWireSphere(attackpoint.position, attackrange);
     }
-
+    //判斷攻擊
     private void CheckAttackHit()
     {
         //宣告打到的目標物件(可能為空)
@@ -140,7 +142,7 @@ public class playercontroler : MonoBehaviour
     {
         ani.SetBool("attack", false);
     }
-
+    // 結束滑翔
     public void endSlide()
     {
         slide.enabled = false;
@@ -150,6 +152,7 @@ public class playercontroler : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col) 
     {   
         Flag flag = FindObjectOfType<Flag>();
+        HealthStone stonelight = FindObjectOfType<HealthStone>();
         if (col.gameObject.CompareTag("Box"))
         {
             Debug.Log("gocha");
@@ -163,20 +166,29 @@ public class playercontroler : MonoBehaviour
             }
         }
         
-        if (col.gameObject.CompareTag("Flag")) // 假设你为 flag 小物件设置了 "Flag" 标签
+        if (col.gameObject.CompareTag("Flag")) // 碰到旗幟觸發
         {
             flag.OnPlayerTouchFlag(col.gameObject);
         }
 
-        if (col.gameObject.CompareTag("TransportGate")) // 假设你为 flag 小物件设置了 "Flag" 标签
+        if (col.gameObject.CompareTag("TransportGate")) // 碰到傳送門觸發
         {
             flag.OnPlayerTouchTransportGate(col.gameObject);
         }
 
-        if (col.gameObject.CompareTag("Fire")) // 假设你为 flag 小物件设置了 "Flag" 标签
+        if (col.gameObject.CompareTag("Fire")) // 碰到火球觸發
         {
             this.onDamage(5);
         }
+        if (col.gameObject.CompareTag("HealthStone")) // 碰到旗幟觸發
+        {
+            stonelight.OnPlayerTouchFlag(col.gameObject);
+        }
+    }
+    public void hpHealth()
+    {
+        hp = hpmax;
+        hptext.text = hp.ToString();
     }
     private void OnCollisionEnter2D(Collision2D other) 
     {
@@ -193,6 +205,7 @@ public class playercontroler : MonoBehaviour
             }
         }
     }
+    //被攻擊(生物、火球)
     public void onDamage(float damage)
     {
         hp = hp - damage;
@@ -205,6 +218,7 @@ public class playercontroler : MonoBehaviour
             ;
         }
     }
+    //受傷動畫
     private void hurtover()
     {
         ani.SetBool("isHurt", false);

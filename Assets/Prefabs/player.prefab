@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2204567363777379045}
   - component: {fileID: 5795501751666193761}
   - component: {fileID: 8962789790048529704}
+  - component: {fileID: 1508691136333846146}
   m_Layer: 7
   m_Name: player
   m_TagString: Untagged
@@ -110,7 +111,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 995613665
   m_SortingLayer: 4
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: -3318188226485093758, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -326,6 +327,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 73642638-de00-49fb-a9bd-c69a77b65af8
     m_ActionName: Player/attack[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8962789790048529704}
+        m_TargetAssemblyTypeName: playercontroler, Assembly-CSharp
+        m_MethodName: Slide
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6fbd5118-0a63-4a27-bc6e-b46df752e742
+    m_ActionName: Player/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -343,17 +360,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44defbc05b314e9409fbd1a0dfcd7da7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movespeed: 8
+  movespeed: 3
   boxAni: {fileID: 0}
   floor: {fileID: 961145467974053466}
   attackpoint: {fileID: 4893126486032102789}
   attackrange: 0.4
+  hp: 0
+  coincount: {fileID: 0}
+  hptext: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 64
   enemyMask:
     serializedVersion: 2
     m_Bits: 256
+  usaul: {fileID: 2204567363777379045}
+  slide: {fileID: 1508691136333846146}
+--- !u!58 &1508691136333846146
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6163381152023412761}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.34093383, y: -0.68186885}
+  serializedVersion: 2
+  m_Radius: 0.23681988
 --- !u!1 &9121359192883969493
 GameObject:
   m_ObjectHideFlags: 0

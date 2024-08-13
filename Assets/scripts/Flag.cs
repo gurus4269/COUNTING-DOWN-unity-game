@@ -20,7 +20,6 @@ public class Flag : MonoBehaviour
     // Start is called before the first frame update
     protected void Start()
     {
-        //countFlag = count.te
         flagcount = flags.Length;
         availableFlags = new List<GameObject>(flags);
         TransportGate.SetActive(false);

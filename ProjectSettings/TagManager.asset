@@ -10,6 +10,8 @@ TagManager:
   - Flag
   - TransportGate
   - Fire
+  - HealthStone
+  - player
   layers:
   - Default
   - TransparentFX
