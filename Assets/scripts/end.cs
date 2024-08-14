@@ -8,6 +8,6 @@ public class end : MonoBehaviour
 {
     public void EndGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 2);
+        SceneManager.LoadScene("start");
     }
 }

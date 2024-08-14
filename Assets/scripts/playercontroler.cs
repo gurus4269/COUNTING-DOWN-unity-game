@@ -6,16 +6,17 @@ using UnityEngine.UI;
 
 public class playercontroler : MonoBehaviour
 {
-    public float movespeed = 5f;    private float InputX;
-
+    public float movespeed = 5f,jumpHigh = 7;    
+    private float InputX;
     private bool isFlip = false;
 
     private Rigidbody2D rig;
     private Animator ani;
-    public Animator boxAni;
+    private Animator boxAni;
     public Transform floor, attackpoint;
     public float attackrange = .3f, hp, hpmax = 30.0f;
     private int jumpcount = 0, coin = 0;
+    public int jumptotal = 2;
     public Text coincount, hptext;
     public LayerMask groundMask, enemyMask;
     private bool isground;
@@ -80,13 +81,13 @@ public class playercontroler : MonoBehaviour
     {
         if(isground)
         {
-            rig.velocity = new Vector2(rig.velocity.x,7);
+            rig.velocity = new Vector2(rig.velocity.x,jumpHigh);
             ani.SetBool("attack", false);
             jumpcount++; 
         }
-        else if(jumpcount<=2)
+        else if(jumpcount<=jumptotal)
         {
-            rig.velocity = new Vector2(rig.velocity.x,7);
+            rig.velocity = new Vector2(rig.velocity.x,jumpHigh);
             ani.SetBool("attack", false);
             jumpcount++;
         }

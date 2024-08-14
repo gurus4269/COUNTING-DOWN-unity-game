@@ -47,7 +47,7 @@ public class HealthStone : MonoBehaviour
             if(light == BlueLight)
             {
                 BlueLight.SetActive(false);
-                StartCoroutine(ActivateAfterDelayCoroutine(BlueLight, 3.0f)); // 启动协程重启该光源
+                StartCoroutine(ActivateAfterDelayCoroutine(BlueLight, 30.0f)); // 启动协程重启该光源
                 player.hpHealth(); // 回复玩家健康
                 break; // 只处理第一个碰到的光源
                 //lightUpOrDown = false;
