@@ -31,10 +31,16 @@ public class playercontroler : MonoBehaviour
         slide.enabled = false;
         usaul.enabled = true;
         //bluelight.SetActive(true);
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
     }
 
     public void Update()
     {
+        if (Time.deltaTime == 0)
+        {
+            Debug.LogWarning("Time.deltaTime 为 0，这可能导致帧时间问题。");
+        }
         rig.velocity = new Vector2(movespeed * InputX, rig.velocity.y);
 
         //判斷移動

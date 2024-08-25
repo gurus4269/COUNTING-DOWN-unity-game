@@ -12,7 +12,7 @@ namespace ClearSky
         Vector3 movement;
         private int direction = 1;
         bool isJumping = false;
-        private bool alive = true;
+        private bool alive = true, isFlip = false;
 
 
         // Start is called before the first frame update
@@ -32,8 +32,9 @@ namespace ClearSky
                 Attack();
                 Jump();
                 Run();
-
+                
             }
+            
         }
 
         public Vector2 lockedScale = new Vector2(0.2f, 0.2f);
@@ -58,9 +59,15 @@ namespace ClearSky
             if (Input.GetAxisRaw("Horizontal") < 0)
             {
                 direction = -1;
+                Debug.Log(direction);
                 moveVelocity = Vector3.left;
-
-                transform.localScale = new Vector3(direction, 1, 1);
+                if(!isFlip)
+                {
+                    isFlip = true;
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
+                //transform.localScale = new Vector3(-1, 1, 1);
+                
                 if (!anim.GetBool("isJump"))
                     anim.SetBool("isRun", true);
 
@@ -68,9 +75,15 @@ namespace ClearSky
             if (Input.GetAxisRaw("Horizontal") > 0)
             {
                 direction = 1;
+                Debug.Log(direction);
                 moveVelocity = Vector3.right;
+                if(isFlip)
+                {
+                    isFlip = false;
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
 
-                transform.localScale = new Vector3(direction, 1, 1);
+                //transform.localScale = new Vector3(2, -1, 1);
                 if (!anim.GetBool("isJump"))
                     anim.SetBool("isRun", true);
 

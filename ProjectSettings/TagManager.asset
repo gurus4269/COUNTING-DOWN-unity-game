@@ -61,3 +61,6 @@ TagManager:
   - name: front
     uniqueID: 995613665
     locked: 0
+  - name: overfront
+    uniqueID: 461864921
+    locked: 0

@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/start.unity
     guid: 6c37378495fd8314290701a15e215536
   - enabled: 1
+    path: Assets/Scenes/Town.unity
+    guid: ee814686d41fda6428d88d6ca530a144
+  - enabled: 1
     path: Assets/Scenes/levelchoose.unity
     guid: bf83e916de061aa47a65b64feb6b1857
   - enabled: 1
