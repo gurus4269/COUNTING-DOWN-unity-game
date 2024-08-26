@@ -59,7 +59,7 @@ namespace ClearSky
             if (Input.GetAxisRaw("Horizontal") < 0)
             {
                 direction = -1;
-                Debug.Log(direction);
+                //Debug.Log(direction);
                 moveVelocity = Vector3.left;
                 if(!isFlip)
                 {
@@ -75,7 +75,7 @@ namespace ClearSky
             if (Input.GetAxisRaw("Horizontal") > 0)
             {
                 direction = 1;
-                Debug.Log(direction);
+                //Debug.Log(direction);
                 moveVelocity = Vector3.right;
                 if(isFlip)
                 {
