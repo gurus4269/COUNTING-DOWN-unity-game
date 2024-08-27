@@ -1,0 +1,12 @@
+flag,ID,character,context,position,jump,effect,target
+#,0,Chole,test1,left,1,,
+#,1,Ella,test2,right,2,,
+&,2,,choise1,,5,,
+&,3,,choise2,,5,,
+&,4,,choise3,,5,,
+#,5,Ella,test3,right,6,,
+&,6,,yes1,,8,,
+&,7,,no1,,9,,
+#,8,Ella,test4,right,10,,
+#,9,Ella,test5,right,10,,
+END,10,,,,,,
