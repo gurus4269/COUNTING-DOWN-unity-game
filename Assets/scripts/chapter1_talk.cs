@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class chapter1_talk : MonoBehaviour
 {
     public GameObject talkUI;
     public TextAsset chapterdialog;//對話的資料
-    public SpriteRenderer right,left,middle;//人物圖片
+    public SpriteRenderer right,left,middle,middleRight,middleLeft;//人物圖片
     public TMP_Text nameText;//顯示的名稱
     public TMP_Text dialog;//顯示的對話
     public Button nextButton;//next按鈕
@@ -29,9 +31,11 @@ public class chapter1_talk : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(WaitOneSecond());
+        talkUI.SetActive(true);
         readText(chapterdialog);
         readline();
+        //Debug.Log("Scene Loaded and Start method is called");
+        //StartCoroutine(WaitOneSecond());
     }
 
     // Update is called once per frame
@@ -39,14 +43,15 @@ public class chapter1_talk : MonoBehaviour
     {
         
     }
-    IEnumerator WaitOneSecond()
-    {
-        // 等待一秒
-        yield return new WaitForSeconds(1f);
-        // 一秒後執行的程式碼
-        talkUI.SetActive(true);
-        //Debug.Log("一秒已過去");
-    }
+    // IEnumerator WaitOneSecond()
+    // {
+    //     // 等待一秒
+    //     yield return new WaitForSeconds(1f);
+    //     // 一秒後執行的程式碼
+    //     talkUI.SetActive(true);
+    //     readText(chapterdialog);
+    //     readline();
+    // }
     public void UpdateText(string _name, string _text)
     {
         nameText.text = _name;
@@ -56,15 +61,115 @@ public class chapter1_talk : MonoBehaviour
     {
         if(_pos == 1)//左
         {
+            middleRight.sprite = null;
+            middleLeft.sprite = null;
+            if(right.sprite == characterImg[_name])
+            {
+                right.sprite = null;
+            }
+            else if(middle.sprite == characterImg[_name])
+            {
+                middle.sprite = null;
+            }
+            // else if(middleLeft.sprite == characterImg[_name])
+            // {
+            //     middleLeft.sprite = null;
+            // }
+            // else if(middleRight.sprite == characterImg[_name])
+            // {
+            //     middleRight.sprite = null;
+            // }
             left.sprite = characterImg[_name];
         }
         else if(_pos == 2)//中
         {
+            middleRight.sprite = null;
+            middleLeft.sprite = null;
+            if(right.sprite == characterImg[_name])
+            {
+                right.sprite = null;
+            }
+            else if(left.sprite == characterImg[_name])
+            {
+                left.sprite = null;
+            }
+            // else if(middleLeft.sprite == characterImg[_name])
+            // {
+            //     middleLeft.sprite = null;
+            // }
+            // else if(middleRight.sprite == characterImg[_name])
+            // {
+            //     middleRight.sprite = null;
+            // }
             middle.sprite = characterImg[_name];
         }
         else if(_pos == 3)//右
         {
+            middleRight.sprite = null;
+            middleLeft.sprite = null;
+            if(left.sprite == characterImg[_name])
+            {
+                left.sprite = null;
+            }
+            else if(middle.sprite == characterImg[_name])
+            {
+                middle.sprite = null;
+            }
+            // else if(middleLeft.sprite == characterImg[_name])
+            // {
+            //     middleLeft.sprite = null;
+            // }
+            // else if(middleRight.sprite == characterImg[_name])
+            // {
+            //     middleRight.sprite = null;
+            // }
             right.sprite = characterImg[_name];
+        }
+        else if(_pos == 4)//中右
+        {
+            left.sprite = null;
+            middle.sprite = null;
+            right.sprite = null;
+            // if(left.sprite == characterImg[_name])
+            // {
+            //     left.sprite = null;
+            // }
+            // else if(middle.sprite == characterImg[_name])
+            // {
+            //     middle.sprite = null;
+            // }
+            if(middleLeft.sprite == characterImg[_name])
+            {
+                middleLeft.sprite = null;
+            }
+            // else if(right.sprite == characterImg[_name])
+            // {
+            //     right.sprite = null;
+            // }
+            middleRight.sprite = characterImg[_name];
+        }
+        else if(_pos == 5)//中左
+        {
+            left.sprite = null;
+            middle.sprite = null;
+            right.sprite = null;
+            // if(left.sprite == characterImg[_name])
+            // {
+            //     left.sprite = null;
+            // }
+            // else if(middle.sprite == characterImg[_name])
+            // {
+            //     middle.sprite = null;
+            // }
+            // else if(right.sprite == characterImg[_name])
+            // {
+            //     right.sprite = null;
+            // }
+            if(middleRight.sprite == characterImg[_name])
+            {
+                middleRight.sprite = null;
+            }
+            middleLeft.sprite = characterImg[_name];
         }
     }
     public void readText(TextAsset _textAsset)
@@ -80,20 +185,46 @@ public class chapter1_talk : MonoBehaviour
             if(cells[0] == "#" && int.Parse(cells[1]) == dialogcount)
             {
                 UpdateText(cells[2], cells[3]);
-                UpdateImage(cells[2], cells[4] == "left" ? 1 : (cells[4] == "middle" ? 2 : 3));
+                int posIndex;
+                switch (cells[4])
+                {
+                    case "left":
+                        posIndex = 1;
+                        break;
+                    case "middle":
+                        posIndex = 2;
+                        break;
+                    case "right":
+                        posIndex = 3;
+                        break;
+                    case "middleright":
+                        posIndex = 4;
+                        break;
+                    default:
+                        posIndex = 5; // 默认值
+                        break;
+                }
+                UpdateImage(cells[2], posIndex);
 
                 dialogcount = int.Parse(cells[5]);
                 break;
             }
             else if(cells[0] == "&" && int.Parse(cells[1]) == dialogcount)
             {
-                nextButton.gameObject.SetActive(false);
+                talkUI.SetActive(false);
                 GenrateOption(int.Parse(cells[1]));
                 buttonGroup.gameObject.SetActive(true);
             }
+            else if(cells[0] == "*" && int.Parse(cells[1]) == dialogcount)
+            {
+                UpdateText(cells[2], cells[3]);
+
+                dialogcount = int.Parse(cells[5]);
+                break;
+            }
             else if(cells[0] == "END")
             {
-                Debug.Log("OVER");
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         }
     }
@@ -127,7 +258,7 @@ public class chapter1_talk : MonoBehaviour
             Destroy(buttonGroup.GetChild(i).gameObject);
         }
         buttonGroup.gameObject.SetActive(false);
-        nextButton.gameObject.SetActive(true);
+        talkUI.SetActive(true);
         readline();
     }
 }
