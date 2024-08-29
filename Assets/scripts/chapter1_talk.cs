@@ -27,6 +27,9 @@ public class chapter1_talk : MonoBehaviour
     {
         characterImg["Chole"] = sprites[0];
         characterImg["Ella"] = sprites[1];
+        characterImg["Hana"] = sprites[2];
+        characterImg["Olivia"] = sprites[3];
+        characterImg["Selina"] = sprites[4];
     }
 
     void Start()
