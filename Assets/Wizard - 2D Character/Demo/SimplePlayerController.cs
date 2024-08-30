@@ -92,8 +92,7 @@ namespace ClearSky
         }
         void Jump()
         {
-            if ((Input.GetButtonDown("Jump") || Input.GetAxisRaw("Vertical") > 0)
-            && !anim.GetBool("isJump"))
+            if ((Input.GetButtonDown("Jump") || Input.GetAxisRaw("Vertical") > 0) && !anim.GetBool("isJump"))
             {
                 isJumping = true;
                 anim.SetBool("isJump", true);
